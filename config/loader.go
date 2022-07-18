@@ -7,7 +7,7 @@ import (
 )
 
 func LoadConfig() *Config {
-	configFile, err := os.Open("config.json5")
+	configFile, err := os.Open("private/config.json5")
 	if err != nil {
 		log.Panicln(err)
 	}

@@ -10,15 +10,15 @@ import (
 )
 
 type TC struct {
-	handle      *tc.Tc
-	devID       *net.Interface
-	kill        chan bool
-	ttl         uint8
+	handle *tc.Tc
+	devID  *net.Interface
+	kill   chan bool
+	ttl    uint8
 }
 
 func Open(iface string, offset int, ttl uint8) (*TC, error) {
 	result := TC{
-		kill:        make(chan bool),
+		kill: make(chan bool),
 	}
 	result.waitForClose()
 	devID, err := net.InterfaceByName(iface)
@@ -63,7 +63,7 @@ func (o TC) MapBuckets(buckets []buckets.Bucket, offset int) {
 			Attribute: tc.Attribute{
 				Kind: "fw",
 				Fw: &tc.Fw{
-					Mask:    uint32Ptr(mask),
+					Mask:    &mask,
 					Actions: &mplsActions,
 				},
 			},
@@ -88,8 +88,4 @@ func (o TC) waitForClose() {
 	}()
 	for !<-o.kill {
 	}
-}
-
-func uint32Ptr(v uint32) *uint32 {
-	return &v
 }
